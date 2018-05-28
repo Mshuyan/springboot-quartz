@@ -18,16 +18,16 @@ public class MyTimingTask {
                 .forJob(getJobDetail())
                 .withIdentity("myTrigger1", "group1")
                 .startNow()
-                .withSchedule(cronSchedule("0/5 * 0-23 16-17 * ?"))
+                .withSchedule(cronSchedule("0/5 * * * * ?"))
                 .build();
     }
 
     @Bean
     public JobDetail getJobDetail(){
         return newJob(MyJob.class)
-                //为什么必须设置这个啊
                 .storeDurably(true)
                 .withIdentity("myJob", "group1")
+                .usingJobData("index",0)
                 .build();
     }
 }
