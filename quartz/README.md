@@ -34,7 +34,7 @@
 #### 3.1. 状态与并发
 >   状态：指的是JobDataMap中的有状态的数据属性<br/>
     并发：指的是同一个JobDetail实例中的job接口实现类的多个实例的并发
-    
+
 + @DisallowConcurrentExecution<br/>
     该注解加在job接口实现类上<br/>
     用于告诉Quartz，不要并发的执行同一个JobDetail实例中job接口实现类的多个实例,出现并发现象时，等待前1个执行结束后再执行下一个<br/>
@@ -73,7 +73,7 @@
 + Job任务中需要使用的有状态的数据属性，可以设置到JobDataMap中，每次执行job任务时可以获取JobDataMap中的数据
 + 定义JobDetail或Trigger实例时可以使用usingJobData方法将数据设置到各自JobDataMap中
 + JobDetail和Trigger拥有自己的JobDataMap对象，Job接口实现类的参数context的JobDataMap对象是JobDetail和Trigger中JobDataMap对象的并集，但是如果存在重复属性，后者会覆盖前者
-    
+  
 #### 4.1. 使用
 1. 设置数据
     + 向JobDetail的JobDataMap对象中设置属性
@@ -157,7 +157,7 @@
               System.out.println("age: " + age);
           }
       }
-      ``` 
+      ```
 
 ### 5. key、name、group
 <a name="name1"/>
@@ -207,11 +207,11 @@ JobKey jobKey = job.getKey();
     ```
     + 可恢复是什么意思？<br/>
       可以理解为就是持久化的
-        
+      
 ### 7. Trigger
 > Trigger主要分为2种：SimpleTrigger、CronTrigger,这两个都是接口<br/>
     SimpleTrigger和CronTrigger都继承自Trigger，所以他们也具备一些公共属性
-    
+
 #### 7.1. 公共
 ##### 7.1.1. 属性
 1. TriggerKey<br/>
@@ -229,7 +229,7 @@ JobKey jobKey = job.getKey();
 >   Quartz的Calendar对象(不是java.util.Calendar对象)可以在定义和存储trigger的时候与trigger进行关联。<br/>
     Calendar用于从trigger的调度计划中排除或使用时间段。<br/>
     比如:需求是工作日每天8点执行1个任务，则可以创建一个trigger，每天的上午8:00执行，然后增加一个Calendar，排除掉所有的节假日。<br/>
-    
+
 + `Calendar`是1个接口，他有如下几个实现类
   + BaseCalendar<br/>
     为高级的 Calendar 实现了基本的功能,基本不使用
@@ -293,61 +293,22 @@ JobKey jobKey = job.getKey();
 2. CRON表达式<br/>
     1. 表达式规则<br/>
        Cron表达式由6或7个由空格分隔的时间字段组成，各个字段的含义(按顺序)如下表所示：<br/>
-       <table>
-            <tr>
-                <th>字段位置</th>
-                <th>位置含义</th>
-                <th>允许值</th>
-                <th>允许的特殊字符</th>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td>秒</td>
-                <td>0-59</td>
-                <td> , - * /</td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td>分钟</td>
-                <td>0-59</td>
-                <td> , - * /</td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td>小时</td>
-                <td>0-23</td>
-                <td> , - * /</td>
-            </tr>
-            <tr>
-                <td>4</td>
-                <td>日期</td>
-                <td>1-31</td>
-                <td> , - * ? / L W C</td>
-            </tr>
-            <tr>
-                <td>5</td>
-                <td>月份</td>
-                <td>1-12</td>
-                <td> , - * /</td>
-            </tr>
-            <tr>
-                <td>6</td>
-                <td>星期</td>
-                <td>1-7（对应星期日-星期六）</td>
-                <td>, - * ? / L C #</td>
-            </tr>
-            <tr>
-                <td>7</td>
-                <td>年（可选）</td>
-                <td>空值;1970-2099</td>
-                <td> , - * /</td>
-            </tr>
-       </table>
+
+       |   字段位置   |   位置含义   |   允许值   |   允许的特殊字符   |
+       | :--: | ---- | ---- | ---- |
+       |   1  | 秒 | 0-59 |, - * /|
+       | 2 | 分钟 | 0-59 |, - * /|
+       | 3 | 小时 | 0-23 |, - * /|
+       | 4 | 日期 | 1-31 |, - * ? / L W C|
+       | 5 | 月份 | 1-12 |, - * /|
+       | 6 | 星期 | 1-7（对应星期日-星期六） |, - * ? / L C #|
+       | 7 | 年（可选） | 空值;1970-2099 |, - * /|
+
     2. 特殊字符
         > 各个字段可以使用允许值，也可以使用允许的特殊字符<br/>
           如：“0 0 12 ？* WED“ - 这意味着”每个星期三下午12:00“<br/>
           特殊字符含义如下：
-      
+
         + 星号（*）<br/>
             表示任意值；如：*在分钟字段时，表示“每分钟”
         + 问号（？）<br/>
@@ -379,12 +340,13 @@ JobKey jobKey = job.getKey();
         + C<br/>
             5C在日期字段中就相当于日历5日以后的第一天。<br/>
             1C在星期字段中相当于星期日后的第一天。
+
     3. 更多资料参见[Quartz——CronTrigger触发器](http://eksliang.iteye.com/blog/2208295)
 ### 8. Listener
 #### 8.1. TriggerListener和JobListener
 + JobListener<br/>
     + 继承`JobListenerSupport`类，重写想要监听的事件的方法
-    + 必须重写`getName()`，为这个Listener七个名字并返回
+    + 必须重写`getName()`，为这个Listener起个名字并返回
     + 注册Listener
         ```java
         //为指定job添加监听
@@ -434,19 +396,22 @@ JobKey jobKey = job.getKey();
 > 存在数据库中，持久化的，但是速度慢
 1. 创建数据库表<br/>
     + 在[quartz官网](http://www.quartz-scheduler.org/downloads/)下载资料`quartz-2.2.3.tar.gz`,解压后找到数据库建表脚本：`docs/dbTables/tables_mysql_innodb.sql`
-    + 在数据库中创建1张表，如：quartz，在该表中执行sql脚本
+    + 该脚本在本工程根目录下也拷贝了1份
+    + 在数据库中创建1个数据源，如：quartz，在该表中执行sql脚本
+
 2. 事务
     + JobStoreTX：Quartz自己管理事务
     + JobStoreCMT：服务器容器（spring）管理事务
+
 3. DataSource<br/>
     quartz有2种获取数据库连接的方式：
     + quartz自己创建管理datasource
     + 使用服务器应用程序管理的datasources
-    
-    
-
-
-
 
     
+
+
+
+
+​    
 

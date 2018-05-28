@@ -16,13 +16,5 @@ public class MyJob extends QuartzJobBean {
         index ++;
         System.out.println("index : " + index);
         context.getJobDetail().getJobDataMap().put("index", index);
-/*        cnt ++;
-        if(cnt == 5){
-            try {
-                context.getScheduler().shutdown(true);
-            } catch (SchedulerException e) {
-                e.printStackTrace();
-            }
-        }*/
     }
 }
